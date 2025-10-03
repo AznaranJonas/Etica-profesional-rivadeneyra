@@ -463,6 +463,7 @@
 
     // Cargar vistas previas de juegos
     window.addEventListener('DOMContentLoaded', () => {
+        const repo = "Etica-profesional-rivadeneyra";
         const cards = document.querySelectorAll('.game-card');
         cards.forEach(card => {
             const titleEl = card.querySelector('.game-title');
@@ -476,23 +477,14 @@
                 .replace(/^-+|-+$/g, '');
             const manual = container.getAttribute('data-preview');
             const baseName = manual && manual.trim() ? manual.trim() : slug;
-            const candidates = [
-                `previews/${baseName}.png`
-            ];
-            let idx = 0;
-            function tryNext() {
-                if (idx >= candidates.length) return;
-                const img = new Image();
-                img.className = 'preview-img';
-                img.alt = `Vista previa de ${title}`;
-                img.loading = 'lazy';
-                img.decoding = 'async';
-                img.onerror = tryNext;
-                img.src = candidates[idx++];
-                container.innerHTML = ""; // Limpia el contenedor antes de agregar la imagen
-                container.appendChild(img);
-            }
-            tryNext();
+            const img = new Image();
+            img.className = 'preview-img';
+            img.alt = `Vista previa de ${title}`;
+            img.loading = 'lazy';
+            img.decoding = 'async';
+            img.src = `/${repo}/zonajuegos/previews/${baseName}.png`;
+            container.innerHTML = "";
+            container.appendChild(img);
         });
     });
 </script>
