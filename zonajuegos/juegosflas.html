@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JUEGOS❤️</title>
-    <!-- <base href="/zonajuegos/juegos/"> --> <!-- ELIMINADO para rutas correctas en GitHub Pages -->
     <style>
         * {
             margin: 0;
@@ -38,7 +37,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 28px; /* un poco más de espacio */
+            gap: 28px;
         }
         .gif-lado {
             width: 200px;
@@ -101,6 +100,7 @@
             justify-content: center;
             margin-bottom: 15px;
             overflow: hidden;
+            position: relative;
         }
         
         .game-container embed, .game-container object {
@@ -113,6 +113,22 @@
             height: 100%;
             object-fit: cover;
             display: block;
+        }
+        
+        .preview-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 10px;
+        }
+        
+        .preview-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
         
         .play-btn {
@@ -177,7 +193,7 @@
         .install-ruffle-wrap { text-align: center; margin: 0 0 24px; }
         .install-ruffle-btn {
             display: inline-block;
-            background: #81c784; /* verde claro */
+            background: #81c784;
             color: #0d1b2a;
             padding: 10px 20px;
             border-radius: 30px;
@@ -187,7 +203,7 @@
             transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
         }
         .install-ruffle-btn:hover {
-            background: #66bb6a; /* hover más intenso */
+            background: #66bb6a;
             transform: translateY(-1px);
             box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
         }
@@ -221,7 +237,6 @@
             <p>Para jugar a estos juegos, necesitas tener instalada la extensión Ruffle en tu navegador.</p>
             <p>Ruffle es un emulador de Flash que permite ejecutar contenido SWF de forma segura.</p>
         </div>
-        
         
         <div class="install-ruffle-wrap">
             <a class="install-ruffle-btn" href="https://chromewebstore.google.com/detail/ruffle-flash-emulator/donbcfbmhbcapadipfkeojnmajbakjdc" target="_blank" rel="noopener">Añadir Ruffle</a>
@@ -423,8 +438,6 @@
             </div>
         </div>
         
-        <!-- Más juegos... (continuar con el resto de categorías) -->
-        
         <p class="back-home" style="text-align:center; margin: 12px 0 20px;">
             <a href="/index.html" style="color:#fff; text-decoration: underline;">← Volver a página principal</a>
         </p>
@@ -436,60 +449,102 @@
         </footer>
     </div>
     
-    <audio id="bg-music" src="../audios/Tekken.mp3" autoplay loop></audio>
-<script>
-  // Para asegurar reproducción automática en la mayoría de navegadores:
-  document.addEventListener('DOMContentLoaded', function() {
-    var audio = document.getElementById('bg-music');
-    audio.volume = 0.5; // Puedes ajustar el volumen si lo deseas
-    // Algunos navegadores requieren interacción del usuario para reproducir audio
-    document.body.addEventListener('click', function playOnce() {
-      audio.play();
-      document.body.removeEventListener('click', playOnce);
-    });
-  });
-</script>
+    <audio id="bg-music" src="../audios/Tekken.mp3" loop></audio>
     
-<script>
-    // Función de búsqueda
-    document.getElementById('searchInput').addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        const gameCards = document.querySelectorAll('.game-card');
-        gameCards.forEach(card => {
-            const title = card.querySelector('.game-title').textContent.toLowerCase();
-            card.style.display = title.includes(searchTerm) ? 'block' : 'none';
+    <script>
+        // Para asegurar reproducción automática en la mayoría de navegadores:
+        document.addEventListener('DOMContentLoaded', function() {
+            var audio = document.getElementById('bg-music');
+            audio.volume = 0.5; // Puedes ajustar el volumen si lo deseas
+            // Algunos navegadores requieren interacción del usuario para reproducir audio
+            document.body.addEventListener('click', function playOnce() {
+                audio.play();
+                document.body.removeEventListener('click', playOnce);
+            });
         });
-    });
+        
+        // Función de búsqueda
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const gameCards = document.querySelectorAll('.game-card');
+            gameCards.forEach(card => {
+                const title = card.querySelector('.game-title').textContent.toLowerCase();
+                card.style.display = title.includes(searchTerm) ? 'block' : 'none';
+            });
+        });
 
-    // Cargar vistas previas de juegos
-    window.addEventListener('DOMContentLoaded', () => {
-        const repo = "Etica-profesional-rivadeneyra";
-        const cards = document.querySelectorAll('.game-card');
-        cards.forEach(card => {
-            const titleEl = card.querySelector('.game-title');
-            const container = card.querySelector('.game-container');
-            if (!titleEl || !container) return;
-            const title = titleEl.textContent.trim();
-            const slug = title
-                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-                .toLowerCase()
-                .replace(/[^a-z0-9]+/g, '-')
-                .replace(/^-+|-+$/g, '');
-            const manual = container.getAttribute('data-preview');
-            const baseName = manual && manual.trim() ? manual.trim() : slug;
-            const img = new Image();
-            img.className = 'preview-img';
-            img.alt = `Vista previa de ${title}`;
-            img.loading = 'lazy';
-            img.decoding = 'async';
-            img.src = `/${repo}/zonajuegos/previews/${baseName}.png`;
-            container.innerHTML = "";
-            container.appendChild(img);
+        // Cargar vistas previas de juegos - VERSIÓN CORREGIDA
+        window.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.game-card');
+            
+            cards.forEach(card => {
+                const titleEl = card.querySelector('.game-title');
+                const container = card.querySelector('.game-container');
+                if (!titleEl || !container) return;
+                
+                const title = titleEl.textContent.trim();
+                const manual = container.getAttribute('data-preview');
+                const baseName = manual && manual.trim() ? manual.trim() : 
+                    title.toLowerCase()
+                        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                        .replace(/[^a-z0-9]+/g, '-')
+                        .replace(/^-+|-+$/g, '');
+                
+                // Crear imagen
+                const img = new Image();
+                img.className = 'preview-img';
+                img.alt = `Vista previa de ${title}`;
+                img.loading = 'lazy';
+                img.decoding = 'async';
+                
+                // Intentar diferentes rutas para las vistas previas
+                const possiblePaths = [
+                    `previews/${baseName}.png`,
+                    `../previews/${baseName}.png`,
+                    `./previews/${baseName}.png`,
+                    `zonajuegos/previews/${baseName}.png`,
+                    `../zonajuegos/previews/${baseName}.png`
+                ];
+                
+                // Función para intentar cargar la siguiente ruta
+                function tryNextPath(index) {
+                    if (index >= possiblePaths.length) {
+                        // Si ninguna ruta funciona, mostrar placeholder
+                        showPlaceholder(container, title);
+                        return;
+                    }
+                    
+                    img.src = possiblePaths[index];
+                    
+                    img.onload = function() {
+                        // Imagen cargada correctamente
+                        container.innerHTML = "";
+                        container.appendChild(img);
+                    };
+                    
+                    img.onerror = function() {
+                        // Intentar con la siguiente ruta
+                        tryNextPath(index + 1);
+                    };
+                }
+                
+                // Comenzar con la primera ruta
+                tryNextPath(0);
+            });
+            
+            function showPlaceholder(container, title) {
+                container.innerHTML = `
+                    <div class="preview-placeholder">
+                        <div>🎮</div>
+                        <div>${title}</div>
+                        <div style="font-size: 0.8rem; margin-top: 5px;">Vista previa no disponible</div>
+                    </div>
+                `;
+            }
         });
-    });
-</script>
+    </script>
     
-<!-- Cargar Ruffle -->
-<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+    <!-- Cargar Ruffle -->
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 </body>
 </html>
