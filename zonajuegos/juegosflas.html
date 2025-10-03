@@ -496,9 +496,14 @@
                 const manual = container.getAttribute('data-preview');
                 const baseName = manual && manual.trim() ? manual.trim() : slug;
                 
-                const candidates = [
-                "/Etica-profesional-rivadeneyra/zonajuegos/previews/" + baseName + ".png"
-                ];
+                // ...dentro del script de vistas previas...
+const repo = "Etica-profesional-rivadeneyra"; // pon aquí el nombre exacto de tu repo
+const candidates = [
+    `/${repo}/zonajuegos/previews/${baseName}.png`,
+    `/${repo}/zonajuegos/previews/${baseName}.jpg`,
+    `/${repo}/zonajuegos/previews/${baseName}.jpeg`
+];
+// ...resto del código igual...
                 
                 const img = new Image();
                 img.className = 'preview-img';
