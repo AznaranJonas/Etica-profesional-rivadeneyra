@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JUEGOS❤️</title>
     <style>
-        /* TUS ESTILOS COMPLETOS AQUÍ */
         * {
             margin: 0;
             padding: 0;
@@ -242,24 +241,39 @@
             <input type="text" class="search-box" placeholder="Buscar juegos..." id="searchInput">
         </div>
         
-        <!-- Categoría 1 -->
+        <!-- Categoría 1 - CON IMÁGENES DIRECTAS -->
         <h2 class="category-title">Juegos de Memoria y Estrategia</h2>
         <div class="games-grid">
             <div class="game-card">
                 <h3 class="game-title">2D Memory</h3>
-                <div class="game-container" data-preview="2d-memory"></div>
+                <div class="game-container">
+                    <img src="https://aznaranjonas.github.io/Etica-profesional-rivadeneyra/zonajuegos/previews/2d-memory.png" 
+                         class="preview-img" 
+                         alt="2D Memory" 
+                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'preview-placeholder\'><div>🎮</div><div>2D Memory</div><small>Error cargando</small></div>'">
+                </div>
                 <a href="juegos/2D Memory.swf" class="play-btn" target="_blank">Jugar Ahora</a>
             </div>
             
             <div class="game-card">
                 <h3 class="game-title">Alchemy</h3>
-                <div class="game-container" data-preview="Alchemy"></div>
+                <div class="game-container">
+                    <img src="https://aznaranjonas.github.io/Etica-profesional-rivadeneyra/zonajuegos/previews/Alchemy.png" 
+                         class="preview-img" 
+                         alt="Alchemy"
+                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'preview-placeholder\'><div>🎮</div><div>Alchemy</div><small>Error cargando</small></div>'">
+                </div>
                 <a href="juegos/Alchemy.swf" class="play-btn" target="_blank">Jugar Ahora</a>
             </div>
             
             <div class="game-card">
                 <h3 class="game-title">Battleships</h3>
-                <div class="game-container" data-preview="Battleships"></div>
+                <div class="game-container">
+                    <img src="https://aznaranjonas.github.io/Etica-profesional-rivadeneyra/zonajuegos/previews/Battleships.png" 
+                         class="preview-img" 
+                         alt="Battleships"
+                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'preview-placeholder\'><div>🎮</div><div>Battleships</div><small>Error cargando</small></div>'">
+                </div>
                 <a href="juegos/Battleships.swf" class="play-btn" target="_blank">Jugar Ahora</a>
             </div>
         </div>
@@ -275,61 +289,6 @@
     </div>
     
     <script>
-        // SOLUCIÓN CON PARÁMETROS DE CACHE
-        function cargarVistasPrevias() {
-            const juegos = document.querySelectorAll('.game-card');
-            console.log(`🎮 Encontrados ${juegos.length} juegos`);
-            
-            let cargadas = 0;
-            let errores = 0;
-            
-            // Timestamp único para evitar cache
-            const timestamp = new Date().getTime();
-            
-            juegos.forEach((juego) => {
-                const titulo = juego.querySelector('.game-title').textContent;
-                const contenedor = juego.querySelector('.game-container');
-                const nombrePreview = contenedor.getAttribute('data-preview');
-                
-                // RUTA CON PARÁMETRO DE CACHE - ¡ESTO FORZA LA ACTUALIZACIÓN!
-                const rutaImagen = `../previews/${nombrePreview}.png?t=${timestamp}`;
-                console.log(`📁 ${titulo}: ${rutaImagen}`);
-                
-                const img = new Image();
-                img.className = 'preview-img';
-                img.alt = `Vista previa de ${titulo}`;
-                
-                img.onload = function() {
-                    cargadas++;
-                    console.log(`✅ ${titulo}: ¡CARGADA EXITOSAMENTE!`);
-                    contenedor.innerHTML = '';
-                    contenedor.appendChild(img);
-                    
-                    // Mostrar mensaje de éxito
-                    if (cargadas === juegos.length) {
-                        console.log("🎉 ¡TODAS LAS IMÁGENES CARGADAS!");
-                    }
-                };
-                
-                img.onerror = function() {
-                    errores++;
-                    console.log(`❌ ${titulo}: Error cargando`);
-                    console.log(`   URL completa: ${window.location.origin}/Etica-profesional-rivadeneyra/zonajuegos/previews/${nombrePreview}.png`);
-                    
-                    contenedor.innerHTML = `
-                        <div class="preview-placeholder">
-                            <div>❌</div>
-                            <div>${titulo}</div>
-                            <small>No se pudo cargar</small>
-                        </div>
-                    `;
-                };
-                
-                // INICIAR CARGA CON PARÁMETRO ANTI-CACHE
-                img.src = rutaImagen;
-            });
-        }
-        
         // Función de búsqueda
         document.getElementById('searchInput').addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase();
@@ -341,19 +300,33 @@
             });
         });
         
-        // EJECUTAR INMEDIATAMENTE Y CON RETRASO
+        // Verificar si las imágenes se cargaron
         document.addEventListener('DOMContentLoaded', function() {
-            console.log("🚀 DOM Cargado - Iniciando carga de imágenes...");
-            cargarVistasPrevias();
+            console.log("🔍 Verificando carga de imágenes...");
             
-            // También ejecutar después de 3 segundos por si hay delay
-            setTimeout(cargarVistasPrevias, 3000);
-        });
-        
-        // Y ejecutar cuando la ventana termine de cargar
-        window.addEventListener('load', function() {
-            console.log("🔄 Window loaded - Verificando imágenes...");
-            setTimeout(cargarVistasPrevias, 1000);
+            const images = document.querySelectorAll('.preview-img');
+            let loaded = 0;
+            let errors = 0;
+            
+            images.forEach(img => {
+                if (img.complete && img.naturalHeight !== 0) {
+                    loaded++;
+                    console.log(`✅ ${img.alt}: Cargada`);
+                } else {
+                    img.onload = function() {
+                        loaded++;
+                        console.log(`✅ ${img.alt}: Cargada (onload)`);
+                    };
+                    img.onerror = function() {
+                        errors++;
+                        console.log(`❌ ${img.alt}: Error de carga`);
+                    };
+                }
+            });
+            
+            setTimeout(() => {
+                console.log(`📊 Resultado: ${loaded} cargadas, ${errors} errores`);
+            }, 2000);
         });
     </script>
     
