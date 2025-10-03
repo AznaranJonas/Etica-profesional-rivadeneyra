@@ -238,7 +238,7 @@
         
         <!-- ÁREA DE DEBUG -->
         <div class="debug-info" id="debugArea">
-            <strong>DEBUG:</strong> Cargando información...
+            <strong>DEBUG:</strong> Inicializando...
         </div>
 
         <div class="instructions">
@@ -289,28 +289,95 @@
     <audio id="bg-music" src="../audios/Tekken.mp3" loop></audio>
     
     <script>
-        // DEBUG: Mostrar información del entorno
-        const debugArea = document.getElementById('debugArea');
-        const isGitHubPages = window.location.hostname.includes('github.io');
-        const currentPath = window.location.pathname;
+        // SOLUCIÓN SIMPLIFICADA Y DIRECTA
+        console.log("🚀 Iniciando carga de vistas previas...");
         
+        // Actualizar debug info inicial
+        const debugArea = document.getElementById('debugArea');
         debugArea.innerHTML = `
-            <strong>DEBUG INFO:</strong><br>
-            - Hostname: ${window.location.hostname}<br>
-            - Es GitHub Pages: ${isGitHubPages}<br>
-            - Path actual: ${currentPath}<br>
-            - URL completa: ${window.location.href}
+            <strong>DEBUG:</strong> Iniciando carga de imágenes...<br>
+            URL actual: ${window.location.href}
         `;
 
-        // Para asegurar reproducción automática
-        document.addEventListener('DOMContentLoaded', function() {
-            var audio = document.getElementById('bg-music');
-            audio.volume = 0.5;
-            document.body.addEventListener('click', function playOnce() {
-                audio.play().catch(e => console.log('Audio no pudo reproducirse:', e));
-                document.body.removeEventListener('click', playOnce);
+        // Función SIMPLIFICADA para cargar vistas previas
+        function loadPreviews() {
+            console.log("🔍 Buscando contenedores de juego...");
+            const cards = document.querySelectorAll('.game-card');
+            console.log(`📁 Encontrados ${cards.length} juegos`);
+            
+            let loaded = 0;
+            let errors = 0;
+            const results = [];
+            
+            cards.forEach((card, index) => {
+                const titleEl = card.querySelector('.game-title');
+                const container = card.querySelector('.game-container');
+                
+                if (!titleEl || !container) {
+                    console.warn(`❌ Card ${index} no tiene título o contenedor`);
+                    return;
+                }
+                
+                const title = titleEl.textContent.trim();
+                const previewName = container.getAttribute('data-preview');
+                
+                console.log(`🎮 Procesando: "${title}" -> "${previewName}.png"`);
+                results.push(`Procesando: "${title}"`);
+                
+                // RUTA ABSOLUTAMENTE CORRECTA para GitHub Pages
+                // Basado en tu URL: https://aznaranjonas.github.io/Etica-profesional-rivadeneyra/zonajuegos/juegosflas.html
+                const imagePath = `../previews/${previewName}.png`;
+                
+                const img = new Image();
+                img.className = 'preview-img';
+                img.alt = `Vista previa de ${title}`;
+                
+                img.onload = function() {
+                    loaded++;
+                    container.innerHTML = '';
+                    container.appendChild(img);
+                    console.log(`✅ Cargada: ${title}`);
+                    results[index] = `✅ ${title}: ${imagePath}`;
+                    updateDebug(loaded, errors, results);
+                };
+                
+                img.onerror = function() {
+                    errors++;
+                    console.log(`❌ Error cargando: ${title} desde ${imagePath}`);
+                    results[index] = `❌ ${title}: ${imagePath}`;
+                    
+                    // Mostrar placeholder después del error
+                    container.innerHTML = `
+                        <div class="preview-placeholder">
+                            <div>🎮</div>
+                            <div>${title}</div>
+                            <div style="font-size: 0.7rem;">No disponible</div>
+                        </div>
+                    `;
+                    updateDebug(loaded, errors, results);
+                };
+                
+                // INICIAR CARGA
+                console.log(`📤 Intentando cargar: ${imagePath}`);
+                img.src = imagePath;
             });
-        });
+            
+            function updateDebug(loaded, errors, results) {
+                debugArea.innerHTML = `
+                    <strong>RESULTADOS:</strong><br>
+                    ✅ Cargadas: ${loaded} | ❌ Errores: ${errors}<br>
+                    <details style="margin-top: 10px;">
+                        <summary>Ver detalles (${results.length})</summary>
+                        <div style="font-size: 0.7rem; margin-top: 5px;">
+                            ${results.map(r => `<div>${r}</div>`).join('')}
+                        </div>
+                    </details>
+                `;
+            }
+            
+            // Actualizar inicialmente
+            updateDebug(loaded, errors, results);
+        }
         
         // Función de búsqueda
         document.getElementById('searchInput').addEventListener('input', function() {
@@ -323,110 +390,27 @@
             });
         });
         
-        // SISTEMA DE PRUEBA - Vamos a probar rutas específicas
-        window.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.game-card');
-            let loadedCount = 0;
-            let errorCount = 0;
-            const debugMessages = [];
-            
-            cards.forEach((card, index) => {
-                const titleEl = card.querySelector('.game-title');
-                const container = card.querySelector('.game-container');
-                
-                if (!titleEl || !container) return;
-                
-                const title = titleEl.textContent.trim();
-                const manual = container.getAttribute('data-preview');
-                const baseName = manual && manual.trim() ? manual.trim() : title;
-                
-                // DEBUG: Agregar información
-                debugMessages.push(`Juego ${index + 1}: "${title}" -> busca: "${baseName}.png"`);
-                
-                // PROBAR RUTAS DIFERENTES
-                const testPaths = [
-                    // Opción 1: Rutas relativas desde la carpeta actual
-                    `previews/${baseName}.png`,
-                    `../previews/${baseName}.png`,
-                    `../../previews/${baseName}.png`,
-                    
-                    // Opción 2: Rutas absolutas para GitHub Pages
-                    `/previews/${baseName}.png`,
-                    `/zonajuegos/previews/${baseName}.png`,
-                    
-                    // Opción 3: Desde la raíz del proyecto
-                    `./previews/${baseName}.png`,
-                    `./zonajuegos/previews/${baseName}.png`,
-                    
-                    // Opción 4: Rutas completas
-                    `${window.location.origin}/previews/${baseName}.png`,
-                    `${window.location.origin}/zonajuegos/previews/${baseName}.png`
-                ];
-                
-                const img = new Image();
-                img.className = 'preview-img';
-                img.alt = `Vista previa de ${title}`;
-                img.loading = 'lazy';
-                
-                function tryPath(pathIndex) {
-                    if (pathIndex >= testPaths.length) {
-                        // Todas las rutas fallaron
-                        errorCount++;
-                        showPlaceholder(container, title);
-                        debugMessages.push(`❌ "${title}": TODAS las rutas fallaron`);
-                        updateDebugInfo();
-                        return;
-                    }
-                    
-                    const testPath = testPaths[pathIndex];
-                    img.src = testPath;
-                    
-                    img.onload = function() {
-                        loadedCount++;
-                        container.innerHTML = "";
-                        container.appendChild(img);
-                        debugMessages.push(`✅ "${title}": cargado desde ${testPath}`);
-                        updateDebugInfo();
-                    };
-                    
-                    img.onerror = function() {
-                        // Intentar siguiente ruta
-                        debugMessages.push(`❌ "${title}": falló ${testPath}`);
-                        tryPath(pathIndex + 1);
-                    };
-                }
-                
-                // Comenzar con la primera ruta
-                tryPath(0);
+        // Audio
+        document.addEventListener('DOMContentLoaded', function() {
+            var audio = document.getElementById('bg-music');
+            audio.volume = 0.3;
+            document.body.addEventListener('click', function playOnce() {
+                audio.play().catch(e => console.log('Audio error:', e));
+                document.body.removeEventListener('click', playOnce);
             });
-            
-            function showPlaceholder(container, title) {
-                container.innerHTML = `
-                    <div class="preview-placeholder">
-                        <div>🎮</div>
-                        <div>${title}</div>
-                        <div style="font-size: 0.8rem; margin-top: 5px;">Vista previa no disponible</div>
-                    </div>
-                `;
-            }
-            
-            function updateDebugInfo() {
-                debugArea.innerHTML = `
-                    <strong>DEBUG INFO:</strong><br>
-                    - Hostname: ${window.location.hostname}<br>
-                    - Es GitHub Pages: ${isGitHubPages}<br>
-                    - Path actual: ${currentPath}<br>
-                    - Cargadas: ${loadedCount} | Falladas: ${errorCount}<br>
-                    <details>
-                        <summary>Ver detalles de carga (${debugMessages.length})</summary>
-                        ${debugMessages.map(msg => `<div style="font-size: 0.7rem; margin: 2px 0;">${msg}</div>`).join('')}
-                    </details>
-                `;
-            }
-            
-            // Actualizar inicialmente
-            updateDebugInfo();
         });
+        
+        // INICIAR CARGA CUANDO LA PÁGINA ESTÉ LISTA
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadPreviews);
+        } else {
+            loadPreviews();
+        }
+        
+        // También iniciar después de un breve delay por si acaso
+        setTimeout(loadPreviews, 1000);
+        
+        console.log("🎯 Script de carga inicializado");
     </script>
     
     <!-- Cargar Ruffle -->
