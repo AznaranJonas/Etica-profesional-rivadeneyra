@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JUEGOS❤️</title>
+    <base href="/zonajuegos/juegos/">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #fff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            padding: 30px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .h1-flex {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 28px; /* un poco más de espacio */
+        }
+        .gif-lado {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+        }
+        @media (max-width: 600px) {
+            .gif-lado { width: 70px; height: 70px; }
+            .h1-flex { gap: 10px; }
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            text-align: center;
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .game-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .game-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .game-container {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .game-container embed, .game-container object {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .game-container .preview-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .play-btn {
+            display: inline-block;
+            background: #ff4081;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .play-btn:hover {
+            background: #e91e63;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.4);
+        }
+        
+        .category-title {
+            font-size: 2rem;
+            margin: 40px 0 20px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            background: #0d1b2a;
+            border-radius: 15px;
+        }
+        
+        .search-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .search-box {
+            padding: 12px 20px;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 30px;
+            border: none;
+            font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .instructions {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .install-ruffle-wrap { text-align: center; margin: 0 0 24px; }
+        .install-ruffle-btn {
+            display: inline-block;
+            background: #81c784; /* verde claro */
+            color: #0d1b2a;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .install-ruffle-btn:hover {
+            background: #66bb6a; /* hover más intenso */
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+        }
+        
+        @media (max-width: 768px) {
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p class="back-home" style="text-align:center; margin: 12px 0;">
+            <a href="/index.html" style="color:#fff; text-decoration: underline;">← Volver a página principal</a>
+        </p>
+        <header>
+            <div class="h1-flex">
+                <img src="/gif/salto.gif" alt="Salta" class="gif-lado" />
+                <h1> ZONA DE DIVERSIÓN </h1>
+                <img src="/gif/salto.gif" alt="Salta" class="gif-lado" />
+            </div>
+            <p class="subtitle">Diviértete con estos juegos interactivos Flash Subidos con mucho esfuerzo por nuestro colaborador.</p>
+        </header>
+        
+        <div class="instructions">
+            <p>Para jugar a estos juegos, necesitas tener instalada la extensión Ruffle en tu navegador.</p>
+            <p>Ruffle es un emulador de Flash que permite ejecutar contenido SWF de forma segura.</p>
+        </div>
+        
+        
+        <div class="install-ruffle-wrap">
+            <a class="install-ruffle-btn" href="https://chromewebstore.google.com/detail/ruffle-flash-emulator/donbcfbmhbcapadipfkeojnmajbakjdc" target="_blank" rel="noopener">Añadir Ruffle</a>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="Buscar juegos..." id="searchInput">
+        </div>
+        
+        <!-- Categoría 1 -->
+        <h2 class="category-title">Juegos de Memoria y Estrategia</h2>
+        <div class="games-grid">
+            <div class="game-card">
+                <h3 class="game-title">2D Memory</h3>
+                <div class="game-container" aria-label="Vista previa de 2D Memory" data-preview="2d-memory"></div>
+                <a href="2D Memory.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Alchemy</h3>
+                <div class="game-container" aria-label="Vista previa de Alchemy" data-preview="alchemy"></div>
+                <a href="Alchemy.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Battleships</h3>
+                <div class="game-container" aria-label="Vista previa de Battleships" data-preview="battleships"></div>
+                <a href="Battleships.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Before and After</h3>
+                <div class="game-container" aria-label="Vista previa de Before and After" data-preview="before-and-after"></div>
+                <a href="Before and After.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Boulder Dash</h3>
+                <div class="game-container" aria-label="Vista previa de Boulder Dash" data-preview="boulder-dash"></div>
+                <a href="Boulder Dash.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Collapse</h3>
+                <div class="game-container" aria-label="Vista previa de Collapse" data-preview="collapse"></div>
+                <a href="Collapse.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Connect 4</h3>
+                <div class="game-container" aria-label="Vista previa de Connect 4" data-preview="connect-4"></div>
+                <a href="Connect 4.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Cubids Crush</h3>
+                <div class="game-container" aria-label="Vista previa de Cubids Crush" data-preview="cubids-crush"></div>
+                <a href="Cubids Crush.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Deal or No Deal</h3>
+                <div class="game-container" aria-label="Vista previa de Deal or No Deal" data-preview="deal-or-no-deal"></div>
+                <a href="Deal or No Deal.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Flash Chess</h3>
+                <div class="game-container" aria-label="Vista previa de Flash Chess" data-preview="flash-chess"></div>
+                <a href="Flash Chess.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+        </div>
+        
+        <!-- Categoría 2 -->
+        <h2 class="category-title">Juegos de Acción y Deportes</h2>
+        <div class="games-grid">
+            <div class="game-card">
+                <h3 class="game-title">3D Worms</h3>
+                <div class="game-container" aria-label="Vista previa de 3D Worms" data-preview="3d-worms"></div>
+                <a href="3D Worms.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Air Hockey</h3>
+                <div class="game-container" aria-label="Vista previa de Air Hockey" data-preview="air-hockey"></div>
+                <a href="Air Hockey.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Air Hockey 2</h3>
+                <div class="game-container" aria-label="Vista previa de Air Hockey 2" data-preview="air-hockey-2"></div>
+                <a href="Air Hockey 2.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Archery</h3>
+                <div class="game-container" aria-label="Vista previa de Archery" data-preview="archery"></div>
+                <a href="Archery.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Bow Man</h3>
+                <div class="game-container" aria-label="Vista previa de Bow Man" data-preview="bow-man"></div>
+                <a href="Bow Man.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Cat Baseball</h3>
+                <div class="game-container" aria-label="Vista previa de Cat Baseball" data-preview="cat-baseball"></div>
+                <a href="Cat Baseball.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Curve Ball</h3>
+                <div class="game-container" aria-label="Vista previa de Curve Ball" data-preview="curve-ball"></div>
+                <a href="Curve Ball.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Darts</h3>
+                <div class="game-container" aria-label="Vista previa de Darts" data-preview="darts"></div>
+                <a href="Darts.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Duck Hunt</h3>
+                <div class="game-container" aria-label="Vista previa de Duck Hunt" data-preview="duck-hunt"></div>
+                <a href="Duck Hunt.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Frogger</h3>
+                <div class="game-container" aria-label="Vista previa de Frogger" data-preview="frogger"></div>
+                <a href="Frogger.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+        </div>
+        
+        <!-- Categoría 3 -->
+        <h2 class="category-title">Juegos de Habilidad y Puzzles</h2>
+        <div class="games-grid">
+            <div class="game-card">
+                <h3 class="game-title">Acne Be Gone</h3>
+                <div class="game-container" aria-label="Vista previa de Acne Be Gone" data-preview="acne-be-gone"></div>
+                <a href="Acne Be Gone.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Bake a Cake</h3>
+                <div class="game-container" aria-label="Vista previa de Bake a Cake" data-preview="bake-a-cake"></div>
+                <a href="Bake a Cake.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Beat the Meters</h3>
+                <div class="game-container" aria-label="Vista previa de Beat the Meters" data-preview="beat-the-meters"></div>
+                <a href="Beat the Meters.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Bubbless</h3>
+                <div class="game-container" aria-label="Vista previa de Bubbless" data-preview="bubbless"></div>
+                <a href="Bubbless.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Bump Copter 2</h3>
+                <div class="game-container" aria-label="Vista previa de Bump Copter 2" data-preview="bump-copter-2"></div>
+                <a href="Bump Copter 2.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Chopper Drop</h3>
+                <div class="game-container" aria-label="Vista previa de Chopper Drop" data-preview="chopper-drop"></div>
+                <a href="Chopper Drop.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Chopper Pilot</h3>
+                <div class="game-container" aria-label="Vista previa de Chopper Pilot" data-preview="chopper-pilot"></div>
+                <a href="Chopper Pilot.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Defend Your Castles</h3>
+                <div class="game-container" aria-label="Vista previa de Defend Your Castles" data-preview="defend-your-castles"></div>
+                <a href="Defend Your Castles.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Falldown</h3>
+                <div class="game-container" aria-label="Vista previa de Falldown" data-preview="falldown"></div>
+                <a href="Falldown.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+            
+            <div class="game-card">
+                <h3 class="game-title">Find the Exit</h3>
+                <div class="game-container" aria-label="Vista previa de Find the Exit" data-preview="find-the-exit"></div>
+                <a href="Find the Exit.swf" class="play-btn" target="_blank">Jugar Ahora</a>
+            </div>
+        </div>
+        
+        <!-- Más juegos... (continuar con el resto de categorías) -->
+        
+        <p class="back-home" style="text-align:center; margin: 12px 0 20px;">
+            <a href="/index.html" style="color:#fff; text-decoration: underline;">← Volver a página principal</a>
+        </p>
+        <footer>
+            <p>&copy; 2024 Derechos de autor:
+                <br> JONAS RIVADENEYRA </p>
+                 Todos los derechos reservados.</p>
+            <p>Los juegos requieren la extensión Ruffle para funcionar correctamente.</p>
+        </footer>
+    </div>
+    
+    <audio id="bg-music" src="/audios/Tekken.mp3" autoplay loop></audio>
+<script>
+  // Para asegurar reproducción automática en la mayoría de navegadores:
+  document.addEventListener('DOMContentLoaded', function() {
+    var audio = document.getElementById('bg-music');
+    audio.volume = 0.5; // Puedes ajustar el volumen si lo deseas
+    // Algunos navegadores requieren interacción del usuario para reproducir audio
+    document.body.addEventListener('click', function playOnce() {
+      audio.play();
+      document.body.removeEventListener('click', playOnce);
+    });
+  });
+</script>
+    
+    <script>
+        // Función de búsqueda
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const gameCards = document.querySelectorAll('.game-card');
+            
+            gameCards.forEach(card => {
+                const title = card.querySelector('.game-title').textContent.toLowerCase();
+                if (title.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+        
+        // Detectar si Ruffle está disponible y cargar vistas previas
+        window.addEventListener('DOMContentLoaded', () => {
+            if (typeof window.RufflePlayer !== 'undefined') {
+                console.log('Ruffle está disponible');
+            } else {
+                console.log('Ruffle no está disponible. Instala la extensión.');
+            }
+            
+            // Cargar vistas previas LOCALES desde /zonajuegos/previews/ basadas en el título del juego
+            // Convención por defecto: slug del título en minúsculas, sin tildes y con guiones.
+            // Ejemplos (solo PNG):
+            //   "2D Memory"      -> /zonajuegos/previews/2d-memory.png
+            //   "Air Hockey 2"   -> /zonajuegos/previews/air-hockey-2.png
+            // Opcionalmente, puedes definir data-preview="nombre-archivo-sin-extension" en .game-container
+            // para usar un nombre manual en lugar del slug.
+            const cards = document.querySelectorAll('.game-card');
+            cards.forEach(card => {
+                const titleEl = card.querySelector('.game-title');
+                const container = card.querySelector('.game-container');
+                if (!titleEl || !container) return;
+                const title = titleEl.textContent.trim();
+                
+                const slug = title
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, '-')
+                    .replace(/^-+|-+$/g, '');
+                
+                const manual = container.getAttribute('data-preview');
+                const baseName = manual && manual.trim() ? manual.trim() : slug;
+                
+                const candidates = [
+                    `/zonajuegos/previews/${baseName}.png`
+                ];
+                
+                const img = new Image();
+                img.className = 'preview-img';
+                img.alt = `Vista previa de ${title}`;
+                img.loading = 'lazy';
+                img.decoding = 'async';
+                
+                let idx = 0;
+                const tryNext = () => {
+                    if (idx >= candidates.length) return; // deja el fondo degradado
+                    img.src = candidates[idx++];
+                };
+                img.onerror = tryNext;
+                tryNext();
+                
+                container.appendChild(img);
+            });
+        });
+    </script>
+    
+    <!-- Cargar Ruffle -->
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+</body>
+</html>
