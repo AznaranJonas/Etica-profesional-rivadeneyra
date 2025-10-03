@@ -476,10 +476,9 @@
                 .replace(/^-+|-+$/g, '');
             const manual = container.getAttribute('data-preview');
             const baseName = manual && manual.trim() ? manual.trim() : slug;
-            const repo = "Etica-profesional-rivadeneyra";
-const candidates = [
-    `previews/${baseName}.png`
-];
+            const candidates = [
+                `previews/${baseName}.png`
+            ];
             const img = new Image();
             img.className = 'preview-img';
             img.alt = `Vista previa de ${title}`;
