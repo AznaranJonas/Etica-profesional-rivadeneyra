@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JUEGOS❤️</title>
-    <base href="./zonajuegos/juegos/">
     <style>
         * {
             margin: 0;
@@ -498,7 +497,7 @@
                 const baseName = manual && manual.trim() ? manual.trim() : slug;
                 
                 const candidates = [
-                    `/zonajuegos/previews/${baseName}.png`
+                    `./zonajuegos/previews/${baseName}.png`
                 ];
                 
                 const img = new Image();
