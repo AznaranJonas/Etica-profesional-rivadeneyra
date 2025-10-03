@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JUEGOS❤️</title>
     <style>
+        /* TUS ESTILOS COMPLETOS AQUÍ */
         * {
             margin: 0;
             padding: 0;
@@ -203,14 +204,6 @@
             box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
         }
         
-        .debug-info {
-            background: rgba(255, 0, 0, 0.1);
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px 0;
-            font-size: 0.8rem;
-        }
-        
         @media (max-width: 768px) {
             .games-grid {
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -235,11 +228,6 @@
             </div>
             <p class="subtitle">Diviértete con estos juegos interactivos Flash Subidos con mucho esfuerzo por nuestro colaborador.</p>
         </header>
-        
-        <!-- ÁREA DE DEBUG -->
-        <div class="debug-info" id="debugArea">
-            <strong>DEBUG:</strong> Inicializando...
-        </div>
 
         <div class="instructions">
             <p>Para jugar a estos juegos, necesitas tener instalada la extensión Ruffle en tu navegador.</p>
@@ -259,19 +247,19 @@
         <div class="games-grid">
             <div class="game-card">
                 <h3 class="game-title">2D Memory</h3>
-                <div class="game-container" aria-label="Vista previa de 2D Memory" data-preview="2d-memory"></div>
+                <div class="game-container" data-preview="2d-memory"></div>
                 <a href="juegos/2D Memory.swf" class="play-btn" target="_blank">Jugar Ahora</a>
             </div>
             
             <div class="game-card">
                 <h3 class="game-title">Alchemy</h3>
-                <div class="game-container" aria-label="Vista previa de Alchemy" data-preview="Alchemy"></div>
+                <div class="game-container" data-preview="Alchemy"></div>
                 <a href="juegos/Alchemy.swf" class="play-btn" target="_blank">Jugar Ahora</a>
             </div>
             
             <div class="game-card">
                 <h3 class="game-title">Battleships</h3>
-                <div class="game-container" aria-label="Vista previa de Battleships" data-preview="Battleships"></div>
+                <div class="game-container" data-preview="Battleships"></div>
                 <a href="juegos/Battleships.swf" class="play-btn" target="_blank">Jugar Ahora</a>
             </div>
         </div>
@@ -286,97 +274,67 @@
         </footer>
     </div>
     
-    <audio id="bg-music" src="../audios/Tekken.mp3" loop></audio>
-    
     <script>
-        // SOLUCIÓN SIMPLIFICADA Y DIRECTA
-        console.log("🚀 Iniciando carga de vistas previas...");
-        
-        // Actualizar debug info inicial
-        const debugArea = document.getElementById('debugArea');
-        debugArea.innerHTML = `
-            <strong>DEBUG:</strong> Iniciando carga de imágenes...<br>
-            URL actual: ${window.location.href}
-        `;
-
-        // Función SIMPLIFICADA para cargar vistas previas
-        function loadPreviews() {
-            console.log("🔍 Buscando contenedores de juego...");
-            const cards = document.querySelectorAll('.game-card');
-            console.log(`📁 Encontrados ${cards.length} juegos`);
+        // SOLUCIÓN DEFINITIVA - CON MÚLTIPLES OPCIONES
+        function cargarVistasPrevias() {
+            const juegos = document.querySelectorAll('.game-card');
+            console.log(`🎮 Encontrados ${juegos.length} juegos`);
             
-            let loaded = 0;
-            let errors = 0;
-            const results = [];
-            
-            cards.forEach((card, index) => {
-                const titleEl = card.querySelector('.game-title');
-                const container = card.querySelector('.game-container');
+            juegos.forEach((juego) => {
+                const titulo = juego.querySelector('.game-title').textContent;
+                const contenedor = juego.querySelector('.game-container');
+                const nombrePreview = contenedor.getAttribute('data-preview');
                 
-                if (!titleEl || !container) {
-                    console.warn(`❌ Card ${index} no tiene título o contenedor`);
-                    return;
-                }
-                
-                const title = titleEl.textContent.trim();
-                const previewName = container.getAttribute('data-preview');
-                
-                console.log(`🎮 Procesando: "${title}" -> "${previewName}.png"`);
-                results.push(`Procesando: "${title}"`);
-                
-                // RUTA ABSOLUTAMENTE CORRECTA para GitHub Pages
-                // Basado en tu URL: https://aznaranjonas.github.io/Etica-profesional-rivadeneyra/zonajuegos/juegosflas.html
-                const imagePath = `../previews/${previewName}.png`;
+                // MÚLTIPLES RUTAS POSIBLES
+                const rutasPosibles = [
+                    // Opción 1: Ruta relativa desde zonajuegos
+                    `../previews/${nombrePreview}.png`,
+                    // Opción 2: Ruta absoluta para GitHub Pages
+                    `/Etica-profesional-rivadeneyra/previews/${nombrePreview}.png`,
+                    // Opción 3: Desde la raíz del sitio
+                    `/previews/${nombrePreview}.png`,
+                    // Opción 4: Ruta completa
+                    `https://aznaranjonas.github.io/Etica-profesional-rivadeneyra/previews/${nombrePreview}.png`
+                ];
                 
                 const img = new Image();
                 img.className = 'preview-img';
-                img.alt = `Vista previa de ${title}`;
+                img.alt = `Vista previa de ${titulo}`;
                 
-                img.onload = function() {
-                    loaded++;
-                    container.innerHTML = '';
-                    container.appendChild(img);
-                    console.log(`✅ Cargada: ${title}`);
-                    results[index] = `✅ ${title}: ${imagePath}`;
-                    updateDebug(loaded, errors, results);
-                };
-                
-                img.onerror = function() {
-                    errors++;
-                    console.log(`❌ Error cargando: ${title} desde ${imagePath}`);
-                    results[index] = `❌ ${title}: ${imagePath}`;
+                function intentarSiguienteRuta(indice) {
+                    if (indice >= rutasPosibles.length) {
+                        // Todas las rutas fallaron
+                        contenedor.innerHTML = `
+                            <div class="preview-placeholder">
+                                <div>🎮</div>
+                                <div>${titulo}</div>
+                                <small>Imagen no disponible</small>
+                            </div>
+                        `;
+                        console.log(`❌ ${titulo}: Todas las rutas fallaron`);
+                        return;
+                    }
                     
-                    // Mostrar placeholder después del error
-                    container.innerHTML = `
-                        <div class="preview-placeholder">
-                            <div>🎮</div>
-                            <div>${title}</div>
-                            <div style="font-size: 0.7rem;">No disponible</div>
-                        </div>
-                    `;
-                    updateDebug(loaded, errors, results);
-                };
+                    const ruta = rutasPosibles[indice];
+                    console.log(`🔄 ${titulo}: Intentando ${ruta}`);
+                    
+                    img.onload = function() {
+                        console.log(`✅ ${titulo}: Cargado desde ${ruta}`);
+                        contenedor.innerHTML = '';
+                        contenedor.appendChild(img);
+                    };
+                    
+                    img.onerror = function() {
+                        console.log(`❌ ${titulo}: Falló ${ruta}`);
+                        intentarSiguienteRuta(indice + 1);
+                    };
+                    
+                    img.src = ruta;
+                }
                 
-                // INICIAR CARGA
-                console.log(`📤 Intentando cargar: ${imagePath}`);
-                img.src = imagePath;
+                // Comenzar con la primera ruta
+                intentarSiguienteRuta(0);
             });
-            
-            function updateDebug(loaded, errors, results) {
-                debugArea.innerHTML = `
-                    <strong>RESULTADOS:</strong><br>
-                    ✅ Cargadas: ${loaded} | ❌ Errores: ${errors}<br>
-                    <details style="margin-top: 10px;">
-                        <summary>Ver detalles (${results.length})</summary>
-                        <div style="font-size: 0.7rem; margin-top: 5px;">
-                            ${results.map(r => `<div>${r}</div>`).join('')}
-                        </div>
-                    </details>
-                `;
-            }
-            
-            // Actualizar inicialmente
-            updateDebug(loaded, errors, results);
         }
         
         // Función de búsqueda
@@ -390,27 +348,11 @@
             });
         });
         
-        // Audio
-        document.addEventListener('DOMContentLoaded', function() {
-            var audio = document.getElementById('bg-music');
-            audio.volume = 0.3;
-            document.body.addEventListener('click', function playOnce() {
-                audio.play().catch(e => console.log('Audio error:', e));
-                document.body.removeEventListener('click', playOnce);
-            });
-        });
+        // Iniciar cuando la página cargue
+        document.addEventListener('DOMContentLoaded', cargarVistasPrevias);
         
-        // INICIAR CARGA CUANDO LA PÁGINA ESTÉ LISTA
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', loadPreviews);
-        } else {
-            loadPreviews();
-        }
-        
-        // También iniciar después de un breve delay por si acaso
-        setTimeout(loadPreviews, 1000);
-        
-        console.log("🎯 Script de carga inicializado");
+        // También iniciar después de un tiempo por si acaso
+        setTimeout(cargarVistasPrevias, 1000);
     </script>
     
     <!-- Cargar Ruffle -->
