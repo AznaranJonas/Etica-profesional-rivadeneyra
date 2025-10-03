@@ -275,66 +275,59 @@
     </div>
     
     <script>
-        // SOLUCIÓN DEFINITIVA - CON MÚLTIPLES OPCIONES
+        // SOLUCIÓN DEFINITIVA - RUTA CORRECTA
         function cargarVistasPrevias() {
             const juegos = document.querySelectorAll('.game-card');
             console.log(`🎮 Encontrados ${juegos.length} juegos`);
+            
+            let cargadas = 0;
+            let errores = 0;
             
             juegos.forEach((juego) => {
                 const titulo = juego.querySelector('.game-title').textContent;
                 const contenedor = juego.querySelector('.game-container');
                 const nombrePreview = contenedor.getAttribute('data-preview');
                 
-                // MÚLTIPLES RUTAS POSIBLES
-                const rutasPosibles = [
-                    // Opción 1: Ruta relativa desde zonajuegos
-                    `../previews/${nombrePreview}.png`,
-                    // Opción 2: Ruta absoluta para GitHub Pages
-                    `/Etica-profesional-rivadeneyra/previews/${nombrePreview}.png`,
-                    // Opción 3: Desde la raíz del sitio
-                    `/previews/${nombrePreview}.png`,
-                    // Opción 4: Ruta completa
-                    `https://aznaranjonas.github.io/Etica-profesional-rivadeneyra/previews/${nombrePreview}.png`
-                ];
+                // ¡RUTA CORRECTA! - desde zonajuegos/juegosflas.html hacia zonajuegos/previews/
+                const rutaImagen = `../previews/${nombrePreview}.png`;
+                console.log(`📁 ${titulo}: Buscando en ${rutaImagen}`);
                 
                 const img = new Image();
                 img.className = 'preview-img';
                 img.alt = `Vista previa de ${titulo}`;
                 
-                function intentarSiguienteRuta(indice) {
-                    if (indice >= rutasPosibles.length) {
-                        // Todas las rutas fallaron
-                        contenedor.innerHTML = `
-                            <div class="preview-placeholder">
-                                <div>🎮</div>
-                                <div>${titulo}</div>
-                                <small>Imagen no disponible</small>
-                            </div>
-                        `;
-                        console.log(`❌ ${titulo}: Todas las rutas fallaron`);
-                        return;
-                    }
-                    
-                    const ruta = rutasPosibles[indice];
-                    console.log(`🔄 ${titulo}: Intentando ${ruta}`);
-                    
-                    img.onload = function() {
-                        console.log(`✅ ${titulo}: Cargado desde ${ruta}`);
-                        contenedor.innerHTML = '';
-                        contenedor.appendChild(img);
-                    };
-                    
-                    img.onerror = function() {
-                        console.log(`❌ ${titulo}: Falló ${ruta}`);
-                        intentarSiguienteRuta(indice + 1);
-                    };
-                    
-                    img.src = ruta;
-                }
+                img.onload = function() {
+                    cargadas++;
+                    console.log(`✅ ${titulo}: ¡IMAGEN CARGADA!`);
+                    contenedor.innerHTML = '';
+                    contenedor.appendChild(img);
+                };
                 
-                // Comenzar con la primera ruta
-                intentarSiguienteRuta(0);
+                img.onerror = function() {
+                    errores++;
+                    console.log(`❌ ${titulo}: Error cargando imagen`);
+                    console.log(`   Ruta intentada: ${rutaImagen}`);
+                    
+                    contenedor.innerHTML = `
+                        <div class="preview-placeholder">
+                            <div>🎮</div>
+                            <div>${titulo}</div>
+                            <small>Error cargando vista previa</small>
+                        </div>
+                    `;
+                };
+                
+                // INICIAR CARGA
+                img.src = rutaImagen;
             });
+            
+            // Mostrar resumen después de 2 segundos
+            setTimeout(() => {
+                console.log(`📊 RESUMEN: ${cargadas} cargadas, ${errores} errores`);
+                if (errores > 0) {
+                    console.log("🔍 Verifica que los nombres de archivo coincidan exactamente");
+                }
+            }, 2000);
         }
         
         // Función de búsqueda
@@ -350,9 +343,6 @@
         
         // Iniciar cuando la página cargue
         document.addEventListener('DOMContentLoaded', cargarVistasPrevias);
-        
-        // También iniciar después de un tiempo por si acaso
-        setTimeout(cargarVistasPrevias, 1000);
     </script>
     
     <!-- Cargar Ruffle -->
