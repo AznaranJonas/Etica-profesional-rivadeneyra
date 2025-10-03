@@ -1,0 +1,233 @@
+/* Base y tema */
+:root {
+  --bg: #f5f9ff;
+  --bg-2: #eef6ff;
+  --primary: #001f4d;
+  --primary-600: #0a2a6a;
+  --accent: #2e86de;
+  --text: #0f1b2d;
+  --muted: #4b5b74;
+  --card: #ffffff;
+  --ring: rgba(0, 31, 77, 0.15);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  padding: 0; margin: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--text);
+  background: radial-gradient(1200px 600px at 50% -10%, #f8fbff 0%, var(--bg-2) 60%, #e8f1ff 100%);
+  background-color: var(--bg);
+  line-height: 1.6;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+h1, h2, h3 { color: var(--primary); margin: 0 0 12px; line-height: 1.25; }
+
+p { margin: 0 0 12px; color: var(--text); }
+
+ul, ol { margin: 0 0 12px 1.25rem; }
+
+/* Utilidades */
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+.center { text-align: center; }
+.lead { font-size: 1.1rem; color: var(--muted); }
+.spacer { height: 16px; }
+.shadow { box-shadow: 0 10px 24px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04); }
+.round { border-radius: 12px; }
+.card { background: var(--card); border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); padding: 18px; }
+
+/* Header */
+header {
+  padding: 28px 0 10px;
+}
+header h1 { text-transform: uppercase; color: var(--primary); letter-spacing: 0.5px; text-align: center; }
+
+/* Nav */
+nav { position: sticky; top: 0; z-index: 10; background: var(--primary); box-shadow: 0 2px 12px rgba(0,0,0,0.12); }
+nav ul { list-style: none; margin: 0; padding: 10px 8px; display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+nav a { color: #e6f2ff; text-decoration: none; padding: 8px 12px; border-radius: 8px; display: inline-block; font-weight: 600; font-size: 0.95rem; }
+nav a:hover { background: rgba(255, 255, 255, 0.16); }
+
+/* Secciones */
+section { padding: 28px 0; }
+.section-title { text-align: center; margin-bottom: 20px; }
+.section-subtitle { text-align: center; color: var(--muted); margin-bottom: 20px; }
+.section-body { color: var(--text); }
+
+/* Disposición de dos columnas */
+.two-col { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: start; }
+.two-col .media { align-self: center; }
+.two-col .media img { border-radius: 14px; box-shadow: 0 14px 28px rgba(0,0,0,0.10); }
+
+@media (min-width: 900px) {
+  .two-col { grid-template-columns: 1.1fr 0.9fr; }
+}
+
+/* Variantes de bloques */
+.callout { background: #fff; border-left: 5px solid var(--accent); padding: 14px 16px; border-radius: 8px; box-shadow: 0 8px 22px rgba(0,0,0,0.05); }
+
+/* Listas ajustadas para leer mejor */
+.list-tight li { margin-bottom: 8px; }
+.list-check { list-style: none; margin-left: 0; padding-left: 0; }
+.list-check li { padding-left: 28px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%232e86de" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>') no-repeat 0 3px; background-size: 20px 20px; margin: 8px 0; }
+
+/* Grids específicos */
+.cards-2 { display: grid; grid-template-columns: 1fr; gap: 18px; }
+@media (min-width: 900px) {
+  .cards-2 { grid-template-columns: 1fr 1fr; }
+}
+
+/* Footer */
+footer { background: #0a2a6a; color: #e6f0ff; padding: 26px 0 8px; margin-top: 24px; }
+footer a { color: #e6f0ff; text-decoration: none; }
+footer .links {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    justify-content: center;
+    align-items: center;
+    margin: 18px 0;
+}
+footer .links a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+}
+footer .links img {
+    display: block;
+    margin: 0 auto;
+    width: 38px;
+    height: 38px;
+}
+footer .links { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; }
+footer img { width: 40px; height: 40px; }
+footer p { margin: 4px 0; text-align: center; color: #fff; }
+
+/* Mensaje de despedida */
+.goodbye { text-align: center; margin: 26px 0 34px; font-size: 1.05rem; color: var(--primary-600); font-weight: 700; }
+
+/* Tablas y FAQ simples */
+.faq dd { margin: 0 0 14px 0; }
+.faq dt { font-weight: 700; margin-top: 8px; color: var(--primary); }
+
+/* Accesibilidad y enfoque */
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* CTA botón en footer (segunda fila) */
+footer .links + .links { margin-top: 16px; }
+footer .links:last-of-type a { 
+  display: inline-flex; align-items: center; gap: 10px; 
+  background: #e53935; color: #fff; padding: 12px 18px; 
+  border-radius: 10px; font-weight: 700; 
+  box-shadow: 0 10px 20px rgba(229, 57, 53, 0.25);
+}
+footer .links:last-of-type a:hover { background: #c62828; }
+footer .links:last-of-type a:active { transform: translateY(1px); }
+footer .links:last-of-type a img { width: 20px; height: 20px; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.25)); }
+footer .links:last-of-type a br { display: none; }
+footer .links:last-of-type {
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+footer .links:last-of-type br { display: none; }
+footer .links:last-of-type > img { width: 70px; height: 70px; }
+
+/* Centrar video iframe */
+#video iframe { display: block; margin: 0 auto; }
+#video .card p { text-align: center; }
+
+/* GIFs laterales en el enlace de la zona de diversión */
+footer .links:last-of-type a { position: relative; }
+footer .links:last-of-type a::before,
+footer .links:last-of-type a::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 80px;
+  height: 80px;
+  background: url('gif/corriendo.gif') no-repeat center / contain;
+  pointer-events: none;
+  opacity: 0; /* Ocultos por defecto */
+  transition: opacity 0.2s;
+}
+footer .links:last-of-type a::before { left: -90px; }
+footer .links:last-of-type a::after { right: -90px; }
+
+footer .links:last-of-type a:hover::before,
+footer .links:last-of-type a:hover::after {
+  opacity: 1; /* Visibles solo al hacer hover */
+}
+
+/* Nuevos estilos sugeridos */
+.header-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+}
+.gif-header {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+@media (max-width: 600px) {
+    .gif-header {
+        width: 38px;
+        height: 38px;
+    }
+    .header-flex {
+        gap: 8px;
+    }
+}
+
+.checklist-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 40px;
+    padding-left: 32px; /* Nuevo: separa la lista del borde izquierdo */
+}
+
+.gif-checklist-lateral {
+    width: 520px;
+    height: 520px;
+    object-fit: contain;
+    flex-shrink: 0;
+    margin-left: 12px;
+    align-self: flex-start;
+    margin-top: -88px; /* Ajusta este valor hasta que la imagen quede alineada con el título */
+}
+
+@media (max-width: 900px) {
+    .checklist-row {
+        flex-direction: column;
+        align-items: center;
+        padding-left: 0; /* Quita el padding en móvil */
+    }
+    .gif-checklist-lateral {
+        width: 240px;
+        height: 240px;
+        margin-left: 0;
+        margin-top: -18px;
+    }
+}
+
+#checklist {
+    padding-bottom: 2px; /* Reduce el espacio debajo del checklist */
+}
+
+#faq {
+    padding-top: 4px; /* Opcional: reduce el espacio arriba de FAQ */
+}
