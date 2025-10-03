@@ -214,6 +214,8 @@
         }
     </style>
 </head>
+
+    
 <body>
     <div class="container">
         <p class="back-home" style="text-align:center; margin: 12px 0;">
@@ -447,11 +449,11 @@
         // SISTEMA HÍBRIDO - FUNCIONA EN AMBOS ENTORNOS
         function cargarVistasPrevias() {
             const juegos = document.querySelectorAll('.game-card');
-            console.log(`🎮 Encontrados ${juegos.length} juegos`);
+            console.log(` Encontrados ${juegos.length} juegos`);
             
             // Detectar si estamos en GitHub Pages o Local
             const esGitHubPages = window.location.hostname.includes('github.io');
-            console.log(`🌐 Entorno: ${esGitHubPages ? 'GitHub Pages' : 'Local (VS Code)'}`);
+            console.log(`Entorno: ${esGitHubPages ? 'GitHub Pages' : 'Local (VS Code)'}`);
             
             juegos.forEach((juego) => {
                 const titulo = juego.querySelector('.game-title').textContent;
@@ -468,23 +470,23 @@
                     rutaImagen = `../previews/${nombrePreview}.png`;
                 }
                 
-                console.log(`📁 ${titulo}: ${rutaImagen}`);
+                console.log(` ${titulo}: ${rutaImagen}`);
                 
                 const img = new Image();
                 img.className = 'preview-img';
                 img.alt = `Vista previa de ${titulo}`;
                 
                 img.onload = function() {
-                    console.log(`✅ ${titulo}: ¡CARGADA!`);
+                    console.log(` ${titulo}: ¡CARGADA!`);
                     contenedor.innerHTML = '';
                     contenedor.appendChild(img);
                 };
                 
                 img.onerror = function() {
-                    console.log(`❌ ${titulo}: Error cargando desde ${rutaImagen}`);
+                    console.log(` ${titulo}: Error cargando desde ${rutaImagen}`);
                     contenedor.innerHTML = `
                         <div class="preview-placeholder">
-                            <div>🎮</div>
+                            <div>r</div>
                             <div>${titulo}</div>
                             <small>Vista previa no disponible</small>
                         </div>
