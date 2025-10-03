@@ -275,7 +275,7 @@
     </div>
     
     <script>
-        // SOLUCIÓN DEFINITIVA - RUTA CORRECTA
+        // SOLUCIÓN CON PARÁMETROS DE CACHE
         function cargarVistasPrevias() {
             const juegos = document.querySelectorAll('.game-card');
             console.log(`🎮 Encontrados ${juegos.length} juegos`);
@@ -283,14 +283,17 @@
             let cargadas = 0;
             let errores = 0;
             
+            // Timestamp único para evitar cache
+            const timestamp = new Date().getTime();
+            
             juegos.forEach((juego) => {
                 const titulo = juego.querySelector('.game-title').textContent;
                 const contenedor = juego.querySelector('.game-container');
                 const nombrePreview = contenedor.getAttribute('data-preview');
                 
-                // ¡RUTA CORRECTA! - desde zonajuegos/juegosflas.html hacia zonajuegos/previews/
-                const rutaImagen = `../previews/${nombrePreview}.png`;
-                console.log(`📁 ${titulo}: Buscando en ${rutaImagen}`);
+                // RUTA CON PARÁMETRO DE CACHE - ¡ESTO FORZA LA ACTUALIZACIÓN!
+                const rutaImagen = `../previews/${nombrePreview}.png?t=${timestamp}`;
+                console.log(`📁 ${titulo}: ${rutaImagen}`);
                 
                 const img = new Image();
                 img.className = 'preview-img';
@@ -298,36 +301,33 @@
                 
                 img.onload = function() {
                     cargadas++;
-                    console.log(`✅ ${titulo}: ¡IMAGEN CARGADA!`);
+                    console.log(`✅ ${titulo}: ¡CARGADA EXITOSAMENTE!`);
                     contenedor.innerHTML = '';
                     contenedor.appendChild(img);
+                    
+                    // Mostrar mensaje de éxito
+                    if (cargadas === juegos.length) {
+                        console.log("🎉 ¡TODAS LAS IMÁGENES CARGADAS!");
+                    }
                 };
                 
                 img.onerror = function() {
                     errores++;
-                    console.log(`❌ ${titulo}: Error cargando imagen`);
-                    console.log(`   Ruta intentada: ${rutaImagen}`);
+                    console.log(`❌ ${titulo}: Error cargando`);
+                    console.log(`   URL completa: ${window.location.origin}/Etica-profesional-rivadeneyra/zonajuegos/previews/${nombrePreview}.png`);
                     
                     contenedor.innerHTML = `
                         <div class="preview-placeholder">
-                            <div>🎮</div>
+                            <div>❌</div>
                             <div>${titulo}</div>
-                            <small>Error cargando vista previa</small>
+                            <small>No se pudo cargar</small>
                         </div>
                     `;
                 };
                 
-                // INICIAR CARGA
+                // INICIAR CARGA CON PARÁMETRO ANTI-CACHE
                 img.src = rutaImagen;
             });
-            
-            // Mostrar resumen después de 2 segundos
-            setTimeout(() => {
-                console.log(`📊 RESUMEN: ${cargadas} cargadas, ${errores} errores`);
-                if (errores > 0) {
-                    console.log("🔍 Verifica que los nombres de archivo coincidan exactamente");
-                }
-            }, 2000);
         }
         
         // Función de búsqueda
@@ -341,8 +341,20 @@
             });
         });
         
-        // Iniciar cuando la página cargue
-        document.addEventListener('DOMContentLoaded', cargarVistasPrevias);
+        // EJECUTAR INMEDIATAMENTE Y CON RETRASO
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("🚀 DOM Cargado - Iniciando carga de imágenes...");
+            cargarVistasPrevias();
+            
+            // También ejecutar después de 3 segundos por si hay delay
+            setTimeout(cargarVistasPrevias, 3000);
+        });
+        
+        // Y ejecutar cuando la ventana termine de cargar
+        window.addEventListener('load', function() {
+            console.log("🔄 Window loaded - Verificando imágenes...");
+            setTimeout(cargarVistasPrevias, 1000);
+        });
     </script>
     
     <!-- Cargar Ruffle -->
